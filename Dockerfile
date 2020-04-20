@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.10
+FROM lsiobase/alpine:3.11
 
 # set version label
 ARG BUILD_DATE
@@ -22,6 +22,8 @@ RUN \
  cd /app/synclounge && \
  npm install && \
  npm run build && \
+ npm prune --production && \
+ chown -R 911:911 /app/synclounge && \
  echo "**** cleanup ****" && \
  apk del --purge \
     build-dependencies && \
