@@ -12,10 +12,10 @@ ENV HOME="/app"
 RUN \
  echo "**** install build packages ****" && \
  apk add --no-cache \
+    curl \
     nodejs \
     npm && \
  apk add --no-cache --virtual=build-dependencies \
-    curl \
     git && \
  echo "**** install SyncLounge ****" && \
  git clone https://github.com/samcm/synclounge /app/synclounge && \

@@ -2,5 +2,9 @@
 
 cd /app/synclounge || exit
 
+WEB_ACCESSURL=${DOMAIN:-$(curl icanhazip.com)}
+SERVERS=${</defaults/server.json}
+AUTHENTICATION=${</defaults/authentication.json}
+
 exec \
 	s6-setuidgid abc node webapp.js

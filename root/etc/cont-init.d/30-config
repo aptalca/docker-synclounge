@@ -1,13 +1,14 @@
 #!/usr/bin/with-contenv bash
 
-if [ ! -f "/config/settings.json" ]; then
-	node /app/config.js
-	mv /app/synclounge/settings.json /config
-fi
+DOMAIN=${DOMAIN:-$(curl icanhazip.com)}
 
-ln -sf /config/settings.json /app/synclounge/settings.json
+sed -i "s|SERVERURL|http://${DOMAIN}|g" /defaults/servers.json
+
+if [ -n "$AUTH_USERS" ]; then
+    AUTH_USERS=$(echo $AUTH_USERS | sed 's|,|",\\n    "|g')
+    sed -i "s|AUTH_USERS|$AUTH_USERS|g" /defaults/authentication.json
+fi
 
 # permissions
 chown -R abc:abc \
-	/app \
-	/config
+	/app
