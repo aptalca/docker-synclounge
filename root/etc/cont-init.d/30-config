@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bash
+
+if [ ! -f "/config/settings.json" ]; then
+	node /app/config.js
+	mv /app/synclounge/settings.json /config
+fi
+
+ln -sf /config/settings.json /app/synclounge/settings.json
+
+# permissions
+chown -R abc:abc \
+	/app \
+	/config
