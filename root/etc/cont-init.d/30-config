@@ -1,8 +1,11 @@
 #!/usr/bin/with-contenv bash
 
-DOMAIN=${DOMAIN:-$(curl icanhazip.com)}
-
-sed -i "s|SERVERURL|http://${DOMAIN}|g" /defaults/servers.json
+EXTERNAL_URL=${EXTERNAL_URL:-$(curl icanhazip.com)}
+if [ -n "$EXTERNAL_SERVER_PORT" ]; then
+    sed -i "s|SERVERURL|http://${EXTERNAL_URL}:${EXTERNAL_SERVER_PORT}|g" /defaults/servers.json
+else
+    sed -i "s|SERVERURL|http://${EXTERNAL_URL}|g" /defaults/servers.json
+fi
 
 if [ -n "$AUTH_USERS" ]; then
     AUTH_USERS=$(echo $AUTH_USERS | sed 's|,|",\\n    "|g')
@@ -11,4 +14,4 @@ fi
 
 # permissions
 chown -R abc:abc \
-	/app
+    /app
