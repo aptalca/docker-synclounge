@@ -13,5 +13,7 @@ if [ -n "$AUTH_USERS" ]; then
 fi
 
 # permissions
-chown -R abc:abc \
-    /app
+if [ -n "$PUID" ] && [ "$PUID" != "911" ]; then
+    echo "Fixing permissions. FYI, you don't need to set the PUID env var because this app is stateless"
+    chown -R abc:abc /app
+fi
